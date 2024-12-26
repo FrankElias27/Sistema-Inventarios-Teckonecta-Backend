@@ -11,13 +11,12 @@ import java.util.Set;
 public class Ventas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long VentaId;
+    private Long ventaId;
 
     private String FechaVenta;
     private String NumTotaldeDetalleVenta;
     private String TotalaPagar;
     private String Estado;
-    private boolean activo = false;
 
     @OneToMany(mappedBy = "venta",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -27,11 +26,11 @@ public class Ventas {
     private Cliente cliente;
 
     public Long getVentaId() {
-        return VentaId;
+        return ventaId;
     }
 
     public void setVentaId(Long ventaId) {
-        VentaId = ventaId;
+        this.ventaId = ventaId;
     }
 
     public String getFechaVenta() {
@@ -58,12 +57,12 @@ public class Ventas {
         TotalaPagar = totalaPagar;
     }
 
-    public boolean isActivo() {
-        return activo;
+    public String getEstado() {
+        return Estado;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setEstado(String estado) {
+        Estado = estado;
     }
 
     public Set<DetalleVenta> getDetalleVenta() {
@@ -80,14 +79,6 @@ public class Ventas {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public String getEstado() {
-        return Estado;
-    }
-
-    public void setEstado(String estado) {
-        Estado = estado;
     }
 
     public Ventas() {

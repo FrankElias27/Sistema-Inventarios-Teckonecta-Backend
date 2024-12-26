@@ -8,6 +8,8 @@ import com.example.aos.sistema_aos_spring_boot.Servicios.ProductosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
@@ -37,9 +39,27 @@ public class ProductosController {
         return ResponseEntity.ok(productosService.obtenerProductos());
     }
 
+
     @GetMapping("/page/{page}")
-    public Page<Productos> listarProducto(@PathVariable("page") int page){
-        return productosService.findAll(PageRequest.of(page,10));
+    public ResponseEntity<Page<Productos>> listarProductosPage(@PathVariable("page") int page) {
+
+        if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            Sort sort = Sort.by(Sort.Order.desc("productoId"));
+            PageRequest pageRequest = PageRequest.of(page, 8, sort);
+            Page<Productos> eventosPage = productosService.findAll(pageRequest);
+
+            if (eventosPage.isEmpty() && page > 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            return ResponseEntity.ok(eventosPage);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/{productoId}")
@@ -59,17 +79,6 @@ public class ProductosController {
         return productosService.listarProductosDeUnaCategoria(categoria);
     }
 
-    @GetMapping("/activo")
-    public List<Productos> listarProductosActivos(){
-        return productosService.obtenerProductosActivos();
-    }
-
-    @GetMapping("/categoria/activo/{categoriaId}")
-    public List<Productos> listarProductosActivosDeUnaCategoria(@PathVariable("categoriaId") Long categoriaId){
-        Categoria categoria = new Categoria();
-        categoria.setCategoriaId(categoriaId);
-        return productosService.obtenerProductosActivosDeUnaCategoria(categoria);
-    }
 
     @GetMapping("/buscar")
     public ResponseEntity<Page<Productos>> buscarProductosPorNombre(

@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface VentasRepository extends JpaRepository<Ventas,Long> {
 
-    List<Ventas> findByActivo(Boolean estado);
+
 
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,11 @@ public class VentasServiceImpl implements VentasService {
 
     @Override
     public Ventas actualizarVenta(Ventas ventas) {
+        // Verificar si el ID de la venta es válido y si la venta existe en la base de datos
+        if (ventas.getVentaId() == null || !ventasRepository.existsById(ventas.getVentaId())) {
+            throw new EntityNotFoundException("La venta con ID " + ventas.getVentaId() + " no existe.");
+        }
+        // Si la venta existe, proceder con la actualización
         return ventasRepository.save(ventas);
     }
 
@@ -47,14 +53,13 @@ public class VentasServiceImpl implements VentasService {
 
     @Override
     public void eliminarVenta(Long ventasId) {
-        Ventas venta = new Ventas();
-        venta.setVentaId(ventasId);
-        ventasRepository.delete(venta);
+        if (ventasRepository.existsById(ventasId)) {
+            ventasRepository.deleteById(ventasId);
+        } else {
+            throw new EntityNotFoundException("La venta con ID " + ventasId + " no existe.");
+        }
     }
 
-    @Override
-    public List<Ventas> obtenerVentaActivos() {
-        return ventasRepository.findByActivo(true);
-    }
+
 
 }

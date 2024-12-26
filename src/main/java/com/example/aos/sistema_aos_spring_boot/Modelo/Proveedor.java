@@ -12,7 +12,7 @@ import java.util.Set;
 public class Proveedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ProveedorId;
+    private Long proveedorId;
 
     private String RazonSocial;
     private String Direccion;
@@ -25,11 +25,11 @@ public class Proveedor {
     private Set<Compras> compraProveedor  = new HashSet<>();
 
     public Long getProveedorId() {
-        return ProveedorId;
+        return proveedorId;
     }
 
     public void setProveedorId(Long proveedorId) {
-        ProveedorId = proveedorId;
+        this.proveedorId = proveedorId;
     }
 
     public String getRazonSocial() {

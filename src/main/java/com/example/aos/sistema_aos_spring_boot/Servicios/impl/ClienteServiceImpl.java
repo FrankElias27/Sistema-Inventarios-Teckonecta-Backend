@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -32,6 +33,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente actualizarCliente(Cliente cliente) {
+        // Verificar si el ID del cliente es válido y si el cliente existe en la base de datos
+        if (cliente.getClienteId() == null || !clienteRepository.existsById(cliente.getClienteId())) {
+            throw new EntityNotFoundException("El cliente con ID " + cliente.getClienteId() + " no existe.");
+        }
+
+        // Si el cliente existe, proceder con la actualización
         return clienteRepository.save(cliente);
     }
 
@@ -45,10 +52,13 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.findById(clienteId).get();
     }
 
+
     @Override
     public void eliminarCliente(Long clienteId) {
-        Cliente cliente = new Cliente();
-        cliente.setClienteId(clienteId);
-        clienteRepository.delete(cliente);
+        if (clienteRepository.existsById(clienteId)) {
+            clienteRepository.deleteById(clienteId);
+        } else {
+            throw new EntityNotFoundException("El cliente con ID " + clienteId + " no existe.");
+        }
     }
 }

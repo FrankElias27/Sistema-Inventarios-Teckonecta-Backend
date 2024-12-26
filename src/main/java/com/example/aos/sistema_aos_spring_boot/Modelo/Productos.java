@@ -12,18 +12,14 @@ public class Productos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ProductoId;
+    private Long productoId;
 
     private String nombre;
-
-
-    private String URLImagen;
     private String codigo;
     private Double stock;
     private Double precioCompra;
     private Double precioVenta;
     private Double precioCotizacion;
-    private boolean activo = false;
 
     @Column(length = 2000)
     private String descripcion;
@@ -44,11 +40,11 @@ public class Productos {
     private Set<DetalleCotizacion> detalleCotizacion2 = new HashSet<>();
 
     public Long getProductoId() {
-        return ProductoId;
+        return productoId;
     }
 
     public void setProductoId(Long productoId) {
-        ProductoId = productoId;
+        this.productoId = productoId;
     }
 
     public String getNombre() {
@@ -59,13 +55,6 @@ public class Productos {
         this.nombre = nombre;
     }
 
-    public String getURLImagen() {
-        return URLImagen;
-    }
-
-    public void setURLImagen(String URLImagen) {
-        this.URLImagen = URLImagen;
-    }
 
     public String getCodigo() {
         return codigo;
@@ -107,14 +96,6 @@ public class Productos {
         this.precioCotizacion = precioCotizacion;
     }
 
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -154,7 +135,6 @@ public class Productos {
     public void setDetalleCotizacion2(Set<DetalleCotizacion> detalleCotizacion2) {
         this.detalleCotizacion2 = detalleCotizacion2;
     }
-
 
     public Productos() {
     }

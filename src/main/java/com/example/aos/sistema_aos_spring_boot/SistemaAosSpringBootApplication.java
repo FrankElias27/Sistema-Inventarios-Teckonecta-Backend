@@ -29,19 +29,18 @@ public class SistemaAosSpringBootApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// Verificar si el usuario ya existe en la base de datos por su username o email
-		String username = "teccuida_julio";
+		String username = "teccuida_24";
 		Usuario usuarioExistente = usuarioService.obtenerUsuario(username);
 
 		if (usuarioExistente==null) {
 			// Solo crear el usuario si no existe
 			Usuario usuario = new Usuario();
-			usuario.setNombre("Julio");
-			usuario.setApellido("Rojas");
+			usuario.setNombre("Administrador");
+			usuario.setApellido("Teccuida & Teckonecta");
 			usuario.setUsername(username);
-			usuario.setPassword(bCryptPasswordEncoder.encode("%Julio%Teckonecta"));
-			usuario.setEmail("c1@gmail.com");
-			usuario.setTelefono("988212020");
-			usuario.setPerfil("foto.png");
+			usuario.setPassword(bCryptPasswordEncoder.encode("Admintec%24"));
+			usuario.setEmail("teccuida@gmail.com");
+			usuario.setTelefono("999999999");
 
 			Rol rol = new Rol();
 			rol.setRolId(1L);

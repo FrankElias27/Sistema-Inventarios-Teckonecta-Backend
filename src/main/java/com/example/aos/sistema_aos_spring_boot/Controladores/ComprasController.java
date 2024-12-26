@@ -1,6 +1,7 @@
 package com.example.aos.sistema_aos_spring_boot.Controladores;
 
 
+import com.example.aos.sistema_aos_spring_boot.Modelo.Categoria;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Compras;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Ventas;
 import com.example.aos.sistema_aos_spring_boot.Servicios.ComprasService;
@@ -8,6 +9,8 @@ import com.example.aos.sistema_aos_spring_boot.Servicios.VentasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +39,27 @@ public class ComprasController {
         return ResponseEntity.ok(comprasService.obtenerCompras());
     }
 
+
     @GetMapping("/page/{page}")
-    public Page<Compras> listarCompra(@PathVariable("page") int page){
-        return comprasService.findAll(PageRequest.of(page,10));
+    public ResponseEntity<Page<Compras>> listarComprasPage(@PathVariable("page") int page) {
+
+        if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            Sort sort = Sort.by(Sort.Order.desc("compraId"));
+            PageRequest pageRequest = PageRequest.of(page, 8, sort);
+            Page<Compras> eventosPage = comprasService.findAll(pageRequest);
+
+            if (eventosPage.isEmpty() && page > 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            return ResponseEntity.ok(eventosPage);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/{comprasId}")
@@ -52,8 +73,4 @@ public class ComprasController {
     }
 
 
-    @GetMapping("/activo")
-    public List<Compras> listarComprasActivos(){
-        return comprasService.obtenerComprasActivos();
-    }
 }

@@ -26,9 +26,6 @@ public interface ProductosService {
 
     List<Productos> listarProductosDeUnaCategoria(Categoria categoria);
 
-    List<Productos> obtenerProductosActivos();
-
-    List<Productos> obtenerProductosActivosDeUnaCategoria(Categoria categoria);
 
     Page<Productos> buscarProductosPorNombre(String nombre, Pageable pageable);
 

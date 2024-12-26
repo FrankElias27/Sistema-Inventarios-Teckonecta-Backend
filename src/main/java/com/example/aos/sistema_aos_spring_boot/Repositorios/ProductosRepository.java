@@ -13,10 +13,6 @@ public interface ProductosRepository extends JpaRepository<Productos,Long> {
 
     List<Productos> findByCategoria(Categoria categoria);
 
-    List<Productos> findByActivo(Boolean estado);
-
-    List<Productos> findByCategoriaAndActivo(Categoria categoria,Boolean estado);
-
     Page<Productos> findByNombreContaining(String nombre, Pageable pageable);
 
     List<Productos> findByNombreContainingIgnoreCase(String nombre);

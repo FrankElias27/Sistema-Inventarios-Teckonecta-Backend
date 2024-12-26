@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -31,6 +32,9 @@ public class ProveedorServiceImpl implements ProveedorService {
 
     @Override
     public Proveedor actualizarProveedor(Proveedor proveedor) {
+        if (proveedor.getProveedorId() == null || !proveedorRepository.existsById(proveedor.getProveedorId())) {
+            throw new EntityNotFoundException("El proveedor con ID " + proveedor.getProveedorId() + " no existe.");
+        }
         return proveedorRepository.save(proveedor);
     }
 
@@ -46,8 +50,10 @@ public class ProveedorServiceImpl implements ProveedorService {
 
     @Override
     public void eliminarProveedor(Long proveedorId) {
-        Proveedor proveedor = new Proveedor();
-        proveedor.setProveedorId(proveedorId);
-        proveedorRepository.delete(proveedor);
+        if (proveedorRepository.existsById(proveedorId)) {
+            proveedorRepository.deleteById(proveedorId);
+        } else {
+            throw new EntityNotFoundException("El proveedor con ID " + proveedorId + " no existe.");
+        }
     }
 }

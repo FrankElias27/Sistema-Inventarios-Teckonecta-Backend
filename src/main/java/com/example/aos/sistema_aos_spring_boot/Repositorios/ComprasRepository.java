@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface ComprasRepository extends JpaRepository<Compras, Long> {
 
-    List<Compras> findByActivo(Boolean estado);
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class ProductosServiceImpl implements ProductosService {
         return productosRepository.findAll(pageable);
     }
 
+
     @Override
     public Productos agregarProductos(Productos productos) {
         return productosRepository.save(productos);
@@ -35,6 +37,11 @@ public class ProductosServiceImpl implements ProductosService {
 
     @Override
     public Productos actualizarProductos(Productos productos) {
+        // Verificar si el ID del producto es válido y si el producto existe en la base de datos
+        if (productos.getProductoId() == null || !productosRepository.existsById(productos.getProductoId())) {
+            throw new EntityNotFoundException("El producto con ID " + productos.getProductoId() + " no existe.");
+        }
+        // Si el producto existe, proceder con la actualización
         return productosRepository.save(productos);
     }
 
@@ -50,9 +57,12 @@ public class ProductosServiceImpl implements ProductosService {
 
     @Override
     public void eliminarProductos(Long productoId) {
-        Productos productos = new Productos();
-        productos.setProductoId(productoId);
-        productosRepository.delete(productos);
+        // Verificar si el producto existe en la base de datos
+        if (productosRepository.existsById(productoId)) {
+            productosRepository.deleteById(productoId);
+        } else {
+            throw new EntityNotFoundException("El producto con ID " + productoId + " no existe.");
+        }
     }
 
     @Override
@@ -60,15 +70,7 @@ public class ProductosServiceImpl implements ProductosService {
         return this.productosRepository.findByCategoria(categoria);
     }
 
-    @Override
-    public List<Productos> obtenerProductosActivos() {
-        return productosRepository.findByActivo(true);
-    }
 
-    @Override
-    public List<Productos> obtenerProductosActivosDeUnaCategoria(Categoria categoria) {
-        return productosRepository.findByCategoriaAndActivo(categoria,true);
-    }
 
     @Override
     public Page<Productos> buscarProductosPorNombre(String nombre, Pageable pageable) {

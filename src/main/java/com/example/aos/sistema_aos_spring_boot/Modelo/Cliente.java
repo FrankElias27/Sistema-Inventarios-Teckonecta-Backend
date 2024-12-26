@@ -3,6 +3,7 @@ package com.example.aos.sistema_aos_spring_boot.Modelo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,12 +12,12 @@ import java.util.Set;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ClienteId;
+    private Long clienteId;
 
     private String Nombre;
     private String ApellidoPaterno;
     private String ApellidoMaterno;
-    private String FechaNacimiento;
+    private LocalDate FechaNacimiento;
     private String Direccion;
     private String DNI;
     private String Correo;
@@ -31,11 +32,11 @@ public class Cliente {
     private Set<Cotizacion> cotizacionCliente  = new HashSet<>();
 
     public Long getClienteId() {
-        return ClienteId;
+        return clienteId;
     }
 
     public void setClienteId(Long clienteId) {
-        ClienteId = clienteId;
+        this.clienteId = clienteId;
     }
 
     public String getNombre() {
@@ -62,11 +63,11 @@ public class Cliente {
         ApellidoMaterno = apellidoMaterno;
     }
 
-    public String getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return FechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         FechaNacimiento = fechaNacimiento;
     }
 

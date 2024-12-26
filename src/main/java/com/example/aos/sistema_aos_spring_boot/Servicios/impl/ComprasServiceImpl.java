@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,11 @@ public class ComprasServiceImpl implements ComprasService {
 
     @Override
     public Compras actualizarCompra(Compras compras) {
+        // Verificar si el ID de la compra es válido y si la compra existe en la base de datos
+        if (compras.getCompraId() == null || !comprasRepository.existsById(compras.getCompraId())) {
+            throw new EntityNotFoundException("La compra con ID " + compras.getCompraId() + " no existe.");
+        }
+        // Si la compra existe, proceder con la actualización
         return comprasRepository.save(compras);
     }
 
@@ -47,14 +53,12 @@ public class ComprasServiceImpl implements ComprasService {
 
     @Override
     public void eliminarCompra(Long comprasId) {
-        Compras compra = new Compras();
-        compra.setCompraId(comprasId);
-        comprasRepository.delete(compra);
+        if (comprasRepository.existsById(comprasId)) {
+            comprasRepository.deleteById(comprasId);
+        } else {
+            throw new EntityNotFoundException("La compra con ID " + comprasId + " no existe.");
+        }
     }
 
-    @Override
-    public List<Compras> obtenerComprasActivos() {
-        return comprasRepository.findByActivo(true);
-    }
 
 }

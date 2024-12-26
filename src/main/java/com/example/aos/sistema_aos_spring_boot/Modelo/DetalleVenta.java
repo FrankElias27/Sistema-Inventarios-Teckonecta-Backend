@@ -8,7 +8,7 @@ public class DetalleVenta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long DetalleVentaId;
+    private Long detalleVentaId;
     private String cantidad;
     private String subtotal;
 
@@ -19,11 +19,11 @@ public class DetalleVenta {
     private Ventas venta;
 
     public Long getDetalleVentaId() {
-        return DetalleVentaId;
+        return detalleVentaId;
     }
 
     public void setDetalleVentaId(Long detalleVentaId) {
-        DetalleVentaId = detalleVentaId;
+        this.detalleVentaId = detalleVentaId;
     }
 
     public String getCantidad() {
@@ -34,12 +34,12 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
 
-    public Productos getProducto() {
-        return producto;
+    public String getSubtotal() {
+        return subtotal;
     }
 
-    public void setProducto(Productos producto) {
-        this.producto = producto;
+    public void setSubtotal(String subtotal) {
+        this.subtotal = subtotal;
     }
 
     public Ventas getVenta() {
@@ -50,12 +50,12 @@ public class DetalleVenta {
         this.venta = venta;
     }
 
-    public String getSubtotal() {
-        return subtotal;
+    public Productos getProducto() {
+        return producto;
     }
 
-    public void setSubtotal(String subtotal) {
-        this.subtotal = subtotal;
+    public void setProducto(Productos producto) {
+        this.producto = producto;
     }
 
     public DetalleVenta() {

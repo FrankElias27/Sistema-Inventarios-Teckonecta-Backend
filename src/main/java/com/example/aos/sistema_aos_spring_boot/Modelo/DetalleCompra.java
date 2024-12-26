@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class DetalleCompra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long DetalleCompraId;
+    private Long detalleCompraId;
     private String cantidad;
     private String subtotal;
 
@@ -18,11 +18,11 @@ public class DetalleCompra {
     private Compras compra;
 
     public Long getDetalleCompraId() {
-        return DetalleCompraId;
+        return detalleCompraId;
     }
 
     public void setDetalleCompraId(Long detalleCompraId) {
-        DetalleCompraId = detalleCompraId;
+        this.detalleCompraId = detalleCompraId;
     }
 
     public String getCantidad() {

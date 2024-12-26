@@ -22,5 +22,4 @@ public interface ComprasService {
 
     void eliminarCompra(Long comprasId);
 
-    List<Compras> obtenerComprasActivos();
 }

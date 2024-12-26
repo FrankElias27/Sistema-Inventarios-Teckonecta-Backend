@@ -3,6 +3,7 @@ package com.example.aos.sistema_aos_spring_boot.Modelo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,13 +12,12 @@ import java.util.Set;
 public class Compras {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long CompraId;
+    private Long compraId;
 
     private String FechaCompra;
     private String NumTotaldeProductos;
     private String TotalaPagar;
     private String Estado;
-    private boolean activo = false;
 
     @OneToMany(mappedBy = "compra",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -27,11 +27,11 @@ public class Compras {
     private Proveedor proveedor;
 
     public Long getCompraId() {
-        return CompraId;
+        return compraId;
     }
 
     public void setCompraId(Long compraId) {
-        CompraId = compraId;
+        this.compraId = compraId;
     }
 
     public String getFechaCompra() {
@@ -58,12 +58,12 @@ public class Compras {
         TotalaPagar = totalaPagar;
     }
 
-    public boolean isActivo() {
-        return activo;
+    public String getEstado() {
+        return Estado;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setEstado(String estado) {
+        Estado = estado;
     }
 
     public Set<DetalleCompra> getDetalleCompra() {
@@ -80,14 +80,6 @@ public class Compras {
 
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
-    }
-
-    public String getEstado() {
-        return Estado;
-    }
-
-    public void setEstado(String estado) {
-        Estado = estado;
     }
 
     public Compras() {
