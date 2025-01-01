@@ -1,4 +1,4 @@
-package com.example.aos.sistema_aos_spring_boot.Modelo.Exceptions;
+package com.example.aos.sistema_aos_spring_boot.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

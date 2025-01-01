@@ -1,8 +1,11 @@
 package com.example.aos.sistema_aos_spring_boot.Modelo;
 
+import com.example.aos.sistema_aos_spring_boot.Enums.Estado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,10 +16,10 @@ public class Ventas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ventaId;
 
-    private String FechaVenta;
-    private String NumTotaldeDetalleVenta;
-    private String TotalaPagar;
-    private String Estado;
+    private LocalDateTime FechaVenta;
+    private Double NumTotalProducto;
+    private Double TotalaPagar;
+    private Estado Estado;
 
     @OneToMany(mappedBy = "venta",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -33,35 +36,35 @@ public class Ventas {
         this.ventaId = ventaId;
     }
 
-    public String getFechaVenta() {
+    public LocalDateTime getFechaVenta() {
         return FechaVenta;
     }
 
-    public void setFechaVenta(String fechaVenta) {
+    public void setFechaVenta(LocalDateTime fechaVenta) {
         FechaVenta = fechaVenta;
     }
 
-    public String getNumTotaldeDetalleVenta() {
-        return NumTotaldeDetalleVenta;
-    }
-
-    public void setNumTotaldeDetalleVenta(String numTotaldeDetalleVenta) {
-        NumTotaldeDetalleVenta = numTotaldeDetalleVenta;
-    }
-
-    public String getTotalaPagar() {
-        return TotalaPagar;
-    }
-
-    public void setTotalaPagar(String totalaPagar) {
+    public void setTotalaPagar(Double totalaPagar) {
         TotalaPagar = totalaPagar;
     }
 
-    public String getEstado() {
+    public Double getNumTotalProducto() {
+        return NumTotalProducto;
+    }
+
+    public void setNumTotalProducto(Double numTotalProducto) {
+        NumTotalProducto = numTotalProducto;
+    }
+
+    public Double getTotalaPagar() {
+        return TotalaPagar;
+    }
+
+    public Estado getEstado() {
         return Estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         Estado = estado;
     }
 

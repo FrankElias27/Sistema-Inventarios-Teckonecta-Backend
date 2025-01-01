@@ -9,9 +9,11 @@ public class DetalleCotizacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long DetalleCotizacionId;
-    private String cantidad;
-    private String subtotal;
+    private Long detalleCotizacionId;
+
+    private Double cantidad;
+    private Double costoUnitario;
+    private Double subtotal;
 
     @ManyToOne( fetch = FetchType.EAGER)
     private Productos producto;
@@ -20,26 +22,26 @@ public class DetalleCotizacion {
     private Cotizacion cotizacion;
 
     public Long getDetalleCotizacionId() {
-        return DetalleCotizacionId;
+        return detalleCotizacionId;
     }
 
     public void setDetalleCotizacionId(Long detalleCotizacionId) {
-        DetalleCotizacionId = detalleCotizacionId;
+        this.detalleCotizacionId = detalleCotizacionId;
     }
 
-    public String getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 
-    public String getSubtotal() {
+    public Double getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(String subtotal) {
+    public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
 
@@ -57,6 +59,14 @@ public class DetalleCotizacion {
 
     public void setCotizacion(Cotizacion cotizacion) {
         this.cotizacion = cotizacion;
+    }
+
+    public Double getCostoUnitario() {
+        return costoUnitario;
+    }
+
+    public void setCostoUnitario(Double costoUnitario) {
+        this.costoUnitario = costoUnitario;
     }
 
     public DetalleCotizacion() {

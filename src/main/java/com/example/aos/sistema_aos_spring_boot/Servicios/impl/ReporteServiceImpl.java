@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.aos.sistema_aos_spring_boot.Commons.JasperReportManager;
 import com.example.aos.sistema_aos_spring_boot.Enums.TipoReporteEnum;
-import com.example.aos.sistema_aos_spring_boot.Modelo.ReporteStock;
-import com.example.aos.sistema_aos_spring_boot.Servicios.ReporteStockService;
+import com.example.aos.sistema_aos_spring_boot.Modelo.Reportes;
+import com.example.aos.sistema_aos_spring_boot.Servicios.ReporteService;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.JRException;
  * @date 24 sep. 2021
  */
 @Service
-public class ReporteStockImpl implements ReporteStockService {
+public class ReporteServiceImpl implements ReporteService {
 
     @Autowired
     private JasperReportManager reportManager;
@@ -36,8 +36,8 @@ public class ReporteStockImpl implements ReporteStockService {
     @Autowired
     private DataSource dataSource;
 
-    private ReporteStock generateReport(String fileName, Map<String, Object> params) throws JRException, IOException, SQLException {
-        ReporteStock dto = new ReporteStock();
+    private Reportes generateReport(String fileName, Map<String, Object> params) throws JRException, IOException, SQLException {
+        Reportes dto = new Reportes();
         String extension = params.get("tipo").toString().equalsIgnoreCase(TipoReporteEnum.EXCEL.name()) ? ".xlsx" : ".pdf";
         dto.setFileName(fileName + extension);
 
@@ -53,27 +53,27 @@ public class ReporteStockImpl implements ReporteStockService {
     }
 
     @Override
-    public ReporteStock obtenerReporteStock(Map<String, Object> params) throws JRException, IOException, SQLException {
+    public Reportes obtenerReporteStock(Map<String, Object> params) throws JRException, IOException, SQLException {
         return generateReport("ReporteRojasCategoria", params);
     }
 
     @Override
-    public ReporteStock obtenerReporteStockTotal(Map<String, Object> params) throws JRException, IOException, SQLException {
+    public Reportes obtenerReporteStockTotal(Map<String, Object> params) throws JRException, IOException, SQLException {
         return generateReport("ReporteRojasTotal", params);
     }
 
     @Override
-    public ReporteStock obtenerReporteStockNormal(Map<String, Object> params) throws JRException, IOException, SQLException {
+    public Reportes obtenerReporteStockNormal(Map<String, Object> params) throws JRException, IOException, SQLException {
         return generateReport("ReporteRojasNormal", params);
     }
 
     @Override
-    public ReporteStock obtenerCotizacionSencilla(Map<String, Object> params) throws JRException, IOException, SQLException {
+    public Reportes obtenerCotizacionSencilla(Map<String, Object> params) throws JRException, IOException, SQLException {
         return generateReport("CotizacionTeccuida", params);
     }
 
     @Override
-    public ReporteStock obtenerCotizacionDetallada(Map<String, Object> params) throws JRException, IOException, SQLException {
+    public Reportes obtenerCotizacionDetallada(Map<String, Object> params) throws JRException, IOException, SQLException {
         return generateReport("CotizacionTeccuida2", params);
     }
 }

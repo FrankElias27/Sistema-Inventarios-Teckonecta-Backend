@@ -22,5 +22,4 @@ public interface CotizacionService {
 
     void eliminarCotizacion(Long cotizacionId);
 
-    List<Cotizacion> obtenerCotizacionActivos();
 }

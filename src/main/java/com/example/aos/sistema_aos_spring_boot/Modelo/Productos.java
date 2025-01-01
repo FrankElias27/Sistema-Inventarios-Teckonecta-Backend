@@ -16,7 +16,6 @@ public class Productos {
 
     private String nombre;
     private String codigo;
-    private Double stock;
     private Double precioCompra;
     private Double precioVenta;
     private Double precioCotizacion;
@@ -26,6 +25,22 @@ public class Productos {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Categoria categoria;
+
+    @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Kardex> kardex  = new HashSet<>();
+
+    @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<DetalleStockTransfer> detalleStockTransfer  = new HashSet<>();
+
+    @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<InventarioStock> inventarioStocks  = new HashSet<>();
+
+    @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<StockTransfer> stockTransfers  = new HashSet<>();
 
     @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -55,21 +70,12 @@ public class Productos {
         this.nombre = nombre;
     }
 
-
     public String getCodigo() {
         return codigo;
     }
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
-    }
-
-    public Double getStock() {
-        return stock;
-    }
-
-    public void setStock(Double stock) {
-        this.stock = stock;
     }
 
     public Double getPrecioCompra() {
@@ -112,6 +118,22 @@ public class Productos {
         this.categoria = categoria;
     }
 
+    public Set<InventarioStock> getInventarioStocks() {
+        return inventarioStocks;
+    }
+
+    public void setInventarioStocks(Set<InventarioStock> inventarioStocks) {
+        this.inventarioStocks = inventarioStocks;
+    }
+
+    public Set<StockTransfer> getStockTransfers() {
+        return stockTransfers;
+    }
+
+    public void setStockTransfers(Set<StockTransfer> stockTransfers) {
+        this.stockTransfers = stockTransfers;
+    }
+
     public Set<DetalleVenta> getDetalleVenta2() {
         return detalleVenta2;
     }
@@ -134,6 +156,22 @@ public class Productos {
 
     public void setDetalleCotizacion2(Set<DetalleCotizacion> detalleCotizacion2) {
         this.detalleCotizacion2 = detalleCotizacion2;
+    }
+
+    public Set<DetalleStockTransfer> getDetalleStockTransfer() {
+        return detalleStockTransfer;
+    }
+
+    public void setDetalleStockTransfer(Set<DetalleStockTransfer> detalleStockTransfer) {
+        this.detalleStockTransfer = detalleStockTransfer;
+    }
+
+    public Set<Kardex> getKardex() {
+        return kardex;
+    }
+
+    public void setKardex(Set<Kardex> kardex) {
+        this.kardex = kardex;
     }
 
     public Productos() {

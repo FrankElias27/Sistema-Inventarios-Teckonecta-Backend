@@ -1,9 +1,12 @@
 package com.example.aos.sistema_aos_spring_boot.Modelo;
 
 
+import com.example.aos.sistema_aos_spring_boot.Enums.Estado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,16 +15,15 @@ import java.util.Set;
 public class Cotizacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long CotizacionId;
+    private Long cotizacionId;
 
-    private String FechaCotizacion;
+    private LocalDateTime FechaCotizacion;
     private String AsuntoCotizacion;
-    private String NumTotaldeDetalle;
-    private String SubTotalCotizacion;
-    private String SubTotalServicios;
-    private String EstadoCotizacion;
-    private String Total;
-    private boolean activo = false;
+    private Double NumTotalProducto;
+    private Double SubTotalCotizacion;
+    private Double SubTotalServicios;
+    private Estado EstadoCotizacion;
+    private Double Total;
 
     @OneToMany(mappedBy = "cotizacion",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -35,18 +37,18 @@ public class Cotizacion {
     private Cliente cliente;
 
     public Long getCotizacionId() {
-        return CotizacionId;
+        return cotizacionId;
     }
 
     public void setCotizacionId(Long cotizacionId) {
-        CotizacionId = cotizacionId;
+        this.cotizacionId = cotizacionId;
     }
 
-    public String getFechaCotizacion() {
+    public LocalDateTime getFechaCotizacion() {
         return FechaCotizacion;
     }
 
-    public void setFechaCotizacion(String fechaCotizacion) {
+    public void setFechaCotizacion(LocalDateTime fechaCotizacion) {
         FechaCotizacion = fechaCotizacion;
     }
 
@@ -58,44 +60,44 @@ public class Cotizacion {
         AsuntoCotizacion = asuntoCotizacion;
     }
 
-    public String getNumTotaldeDetalle() {
-        return NumTotaldeDetalle;
+    public Double getNumTotalProducto() {
+        return NumTotalProducto;
     }
 
-    public void setNumTotaldeDetalle(String numTotaldeDetalle) {
-        NumTotaldeDetalle = numTotaldeDetalle;
+    public void setNumTotalProducto(Double numTotalProducto) {
+        NumTotalProducto = numTotalProducto;
     }
 
-    public String getSubTotalCotizacion() {
+    public Double getSubTotalCotizacion() {
         return SubTotalCotizacion;
     }
 
-    public void setSubTotalCotizacion(String subTotalCotizacion) {
+    public void setSubTotalCotizacion(Double subTotalCotizacion) {
         SubTotalCotizacion = subTotalCotizacion;
     }
 
-    public String getSubTotalServicios() {
+    public Double getSubTotalServicios() {
         return SubTotalServicios;
     }
 
-    public void setSubTotalServicios(String subTotalServicios) {
+    public void setSubTotalServicios(Double subTotalServicios) {
         SubTotalServicios = subTotalServicios;
     }
 
-    public String getTotal() {
+    public Estado getEstadoCotizacion() {
+        return EstadoCotizacion;
+    }
+
+    public void setEstadoCotizacion(Estado estadoCotizacion) {
+        EstadoCotizacion = estadoCotizacion;
+    }
+
+    public Double getTotal() {
         return Total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(Double total) {
         Total = total;
-    }
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
     }
 
     public Set<DetalleCotizacion> getDetalleCotizacion() {
@@ -120,14 +122,6 @@ public class Cotizacion {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public String getEstadoCotizacion() {
-        return EstadoCotizacion;
-    }
-
-    public void setEstadoCotizacion(String estadoCotizacion) {
-        EstadoCotizacion = estadoCotizacion;
     }
 
     public Cotizacion() {

@@ -12,7 +12,7 @@ import java.util.Set;
 public class Servicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ServicioId;
+    private Long servicioId;
     private String NombreServicio;
 
     @OneToMany(mappedBy = "servicio",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -20,11 +20,11 @@ public class Servicio {
     private Set<DetalleServicios> detalleServicios  = new HashSet<>();
 
     public Long getServicioId() {
-        return ServicioId;
+        return servicioId;
     }
 
     public void setServicioId(Long servicioId) {
-        ServicioId = servicioId;
+        this.servicioId = servicioId;
     }
 
     public String getNombreServicio() {

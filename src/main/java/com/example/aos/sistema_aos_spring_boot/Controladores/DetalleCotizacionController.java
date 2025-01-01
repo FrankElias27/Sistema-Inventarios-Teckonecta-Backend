@@ -60,8 +60,11 @@ public class DetalleCotizacionController {
 
         List cotizacions = new ArrayList(detalleCotizacions);
 
-        if(cotizacions.size() > Integer.parseInt(cotizacion.getNumTotaldeDetalle())){
-            cotizacions = cotizacions.subList(0,Integer.parseInt(cotizacion.getNumTotaldeDetalle() + 1));
+
+        if (cotizacions.size() > Math.floor(cotizacion.getNumTotalProducto())) {
+            // Convertir a int después de redondear hacia abajo
+            int numTotalProducto = (int) Math.floor(cotizacion.getNumTotalProducto());
+            cotizacions = cotizacions.subList(0, numTotalProducto + 1); // Asegúrate de que el índice no exceda el tamaño de la lista
         }
 
         Collections.shuffle(cotizacions);

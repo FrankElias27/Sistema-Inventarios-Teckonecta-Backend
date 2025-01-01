@@ -11,7 +11,7 @@ import java.io.ByteArrayInputStream;
  * @HU_CU_REQ
  * @date 24 sep. 2021
  */
-public class ReporteStock {
+public class Reportes {
 
     private String fileName;
     private ByteArrayInputStream stream;

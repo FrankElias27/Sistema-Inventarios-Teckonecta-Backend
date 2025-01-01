@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface CotizacionRepository extends JpaRepository<Cotizacion, Long> {
 
-    List<Cotizacion> findByActivo(Boolean estado);
+
 }

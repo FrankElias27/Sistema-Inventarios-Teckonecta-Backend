@@ -1,5 +1,6 @@
 package com.example.aos.sistema_aos_spring_boot.Servicios.impl;
 
+import com.example.aos.sistema_aos_spring_boot.Modelo.Compras;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Cotizacion;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Ventas;
 import com.example.aos.sistema_aos_spring_boot.Repositorios.CotizacionRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,8 +32,14 @@ public class CotizacionServiceImpl implements CotizacionService {
         return cotizacionRepository.save(cotizacion);
     }
 
+
     @Override
     public Cotizacion actualizarCotizacion(Cotizacion cotizacion) {
+        // Verificar si el ID de la compra es válido y si la compra existe en la base de datos
+        if (cotizacion.getCotizacionId() == null || !cotizacionRepository.existsById(cotizacion.getCotizacionId())) {
+            throw new EntityNotFoundException("La compra con ID " + cotizacion.getCotizacionId() + " no existe.");
+        }
+        // Si la compra existe, proceder con la actualización
         return cotizacionRepository.save(cotizacion);
     }
 
@@ -47,14 +55,11 @@ public class CotizacionServiceImpl implements CotizacionService {
 
     @Override
     public void eliminarCotizacion(Long cotizacionId) {
-        Cotizacion cotizacion = new Cotizacion();
-        cotizacion.setCotizacionId(cotizacionId);
-        cotizacionRepository.delete(cotizacion);
-    }
-
-    @Override
-    public List<Cotizacion> obtenerCotizacionActivos() {
-        return cotizacionRepository.findByActivo(true);
+        if (cotizacionRepository.existsById(cotizacionId)) {
+            cotizacionRepository.deleteById(cotizacionId);
+        } else {
+            throw new EntityNotFoundException("La compra con ID " + cotizacionId + " no existe.");
+        }
     }
 
 }

@@ -9,8 +9,10 @@ public class DetalleVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long detalleVentaId;
-    private String cantidad;
-    private String subtotal;
+
+    private Double cantidad;
+    private Double costoUnitario;
+    private Double subtotal;
 
     @ManyToOne( fetch = FetchType.EAGER)
     private Productos producto;
@@ -26,19 +28,19 @@ public class DetalleVenta {
         this.detalleVentaId = detalleVentaId;
     }
 
-    public String getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 
-    public String getSubtotal() {
+    public Double getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(String subtotal) {
+    public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
 
@@ -56,6 +58,14 @@ public class DetalleVenta {
 
     public void setProducto(Productos producto) {
         this.producto = producto;
+    }
+
+    public Double getCostoUnitario() {
+        return costoUnitario;
+    }
+
+    public void setCostoUnitario(Double costoUnitario) {
+        this.costoUnitario = costoUnitario;
     }
 
     public DetalleVenta() {

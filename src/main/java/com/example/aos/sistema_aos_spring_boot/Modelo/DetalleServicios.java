@@ -9,8 +9,9 @@ public class DetalleServicios {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long DetalleServiciosId;
-    private String subtotal;
+    private Long detalleServiciosId;
+
+    private Double costoUnitario;
 
     @ManyToOne( fetch = FetchType.EAGER)
     private Servicio servicio;
@@ -19,19 +20,19 @@ public class DetalleServicios {
     private Cotizacion cotizacion;
 
     public Long getDetalleServiciosId() {
-        return DetalleServiciosId;
+        return detalleServiciosId;
     }
 
     public void setDetalleServiciosId(Long detalleServiciosId) {
-        DetalleServiciosId = detalleServiciosId;
+        this.detalleServiciosId = detalleServiciosId;
     }
 
-    public String getSubtotal() {
-        return subtotal;
+    public Double getCostoUnitario() {
+        return costoUnitario;
     }
 
-    public void setSubtotal(String subtotal) {
-        this.subtotal = subtotal;
+    public void setCostoUnitario(Double costoUnitario) {
+        this.costoUnitario = costoUnitario;
     }
 
     public Servicio getServicio() {

@@ -61,8 +61,10 @@ public class DetalleCompraController {
 
         List compra = new ArrayList(detalleCompras);
 
-        if(compra.size() > Integer.parseInt(compras.getNumTotaldeProductos())){
-            compra = compra.subList(0,Integer.parseInt(compras.getNumTotaldeProductos() + 1));
+        if (compra.size() > Math.floor(compras.getNumTotalProductos())) {
+            // Convertir a int después de redondear hacia abajo
+            int numTotalProducto = (int) Math.floor(compras.getNumTotalProductos());
+            compra = compra.subList(0, numTotalProducto + 1); // Asegúrate de que el índice no exceda el tamaño de la lista
         }
 
         Collections.shuffle(compra);

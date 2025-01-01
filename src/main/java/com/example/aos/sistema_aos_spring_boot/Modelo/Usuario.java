@@ -24,7 +24,6 @@ public class Usuario implements UserDetails {
     private String email;
     private String telefono;
     private boolean enabled = true;
-    private String perfil;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "usuario")
     @JsonIgnore
@@ -43,7 +42,6 @@ public class Usuario implements UserDetails {
         this.email = email;
         this.telefono = telefono;
         this.enabled = enabled;
-        this.perfil = perfil;
     }
 
     public Long getId() {
@@ -134,13 +132,6 @@ public class Usuario implements UserDetails {
         this.enabled = enabled;
     }
 
-    public String getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(String perfil) {
-        this.perfil = perfil;
-    }
 
     public Set<UsuarioRol> getUsuarioRoles() {
         return usuarioRoles;

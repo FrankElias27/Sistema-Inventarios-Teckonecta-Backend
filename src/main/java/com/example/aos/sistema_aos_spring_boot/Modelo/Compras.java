@@ -1,8 +1,10 @@
 package com.example.aos.sistema_aos_spring_boot.Modelo;
 
+import com.example.aos.sistema_aos_spring_boot.Enums.Estado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +16,10 @@ public class Compras {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long compraId;
 
-    private String FechaCompra;
-    private String NumTotaldeProductos;
-    private String TotalaPagar;
-    private String Estado;
+    private LocalDateTime FechaCompra;
+    private Double NumTotalProductos;
+    private Double TotalaPagar;
+    private Estado Estado;
 
     @OneToMany(mappedBy = "compra",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -34,35 +36,35 @@ public class Compras {
         this.compraId = compraId;
     }
 
-    public String getFechaCompra() {
+    public LocalDateTime getFechaCompra() {
         return FechaCompra;
     }
 
-    public void setFechaCompra(String fechaCompra) {
+    public void setFechaCompra(LocalDateTime fechaCompra) {
         FechaCompra = fechaCompra;
     }
 
-    public String getNumTotaldeProductos() {
-        return NumTotaldeProductos;
+    public Double getNumTotalProductos() {
+        return NumTotalProductos;
     }
 
-    public void setNumTotaldeProductos(String numTotaldeProductos) {
-        NumTotaldeProductos = numTotaldeProductos;
+    public void setNumTotalProductos(Double numTotalProductos) {
+        NumTotalProductos = numTotalProductos;
     }
 
-    public String getTotalaPagar() {
+    public Double getTotalaPagar() {
         return TotalaPagar;
     }
 
-    public void setTotalaPagar(String totalaPagar) {
+    public void setTotalaPagar(Double totalaPagar) {
         TotalaPagar = totalaPagar;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return Estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         Estado = estado;
     }
 
