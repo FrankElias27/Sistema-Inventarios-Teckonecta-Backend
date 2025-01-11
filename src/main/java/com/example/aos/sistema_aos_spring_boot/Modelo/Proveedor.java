@@ -20,9 +20,16 @@ public class Proveedor {
     private String Correo;
     private String Telefono;
 
+    @Column(length = 2000)
+    private String InfoProductos;
+
     @OneToMany(mappedBy = "proveedor",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Compras> compraProveedor  = new HashSet<>();
+
+    @OneToMany(mappedBy = "proveedor",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<AsesorVenta> asesorVentas  = new HashSet<>();
 
     public Long getProveedorId() {
         return proveedorId;
@@ -78,6 +85,22 @@ public class Proveedor {
 
     public void setCompraProveedor(Set<Compras> compraProveedor) {
         this.compraProveedor = compraProveedor;
+    }
+
+    public Set<AsesorVenta> getAsesorVentas() {
+        return asesorVentas;
+    }
+
+    public void setAsesorVentas(Set<AsesorVenta> asesorVentas) {
+        this.asesorVentas = asesorVentas;
+    }
+
+    public String getInfoProductos() {
+        return InfoProductos;
+    }
+
+    public void setInfoProductos(String infoProductos) {
+        InfoProductos = infoProductos;
     }
 
     public Proveedor() {

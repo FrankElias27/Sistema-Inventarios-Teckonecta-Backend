@@ -22,4 +22,6 @@ public interface ComprasService {
 
     void eliminarCompra(Long comprasId);
 
+    void procesarCompra(Long compraId, Long inventarioId);
+
 }

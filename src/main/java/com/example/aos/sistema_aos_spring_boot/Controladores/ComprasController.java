@@ -1,8 +1,13 @@
 package com.example.aos.sistema_aos_spring_boot.Controladores;
 
 
+import com.example.aos.sistema_aos_spring_boot.Exceptions.CompraNoEncontradaException;
+import com.example.aos.sistema_aos_spring_boot.Exceptions.DetallesCompraVaciosException;
+import com.example.aos.sistema_aos_spring_boot.Exceptions.InventarioNoEncontradoException;
+import com.example.aos.sistema_aos_spring_boot.Exceptions.ProductoNoEncontradoException;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Categoria;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Compras;
+import com.example.aos.sistema_aos_spring_boot.Modelo.ResponseMessage;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Ventas;
 import com.example.aos.sistema_aos_spring_boot.Servicios.ComprasService;
 import com.example.aos.sistema_aos_spring_boot.Servicios.VentasService;
@@ -70,6 +75,24 @@ public class ComprasController {
     @DeleteMapping("/{comprasId}")
     public void eliminarCompras(@PathVariable("comprasId") Long comprasId){
         comprasService.eliminarCompra(comprasId);
+    }
+
+    @PostMapping("/{compraId}/procesar/{inventarioId}")
+    public ResponseEntity<?> procesarCompra(@PathVariable Long compraId, @PathVariable Long inventarioId) {
+        try {
+            comprasService.procesarCompra(compraId, inventarioId);
+            return ResponseEntity.ok(new ResponseMessage("Compra procesada con éxito"));
+        } catch (DetallesCompraVaciosException e) {
+            return ResponseEntity.status(400).body("Detalles de compra vacíos: " + e.getMessage());
+        } catch (InventarioNoEncontradoException e) {
+            return ResponseEntity.status(404).body("Inventario no encontrado: " + e.getMessage());
+        } catch (ProductoNoEncontradoException e) {
+            return ResponseEntity.status(404).body("Producto no encontrado: " + e.getMessage());
+        } catch (CompraNoEncontradaException e) {
+            return ResponseEntity.status(404).body("Compra no encontrada: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno del servidor: " + e.getMessage());
+        }
     }
 
 

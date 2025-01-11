@@ -1,6 +1,10 @@
 package com.example.aos.sistema_aos_spring_boot.Modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "DetalleCompra")
@@ -10,7 +14,9 @@ public class DetalleCompra {
     private Long detalleCompraId;
 
     private Double cantidad;
-    private Double costoUnitario;
+    private Double costoCompraUSD;
+    private Double TipoCambio;
+    private Double costoUnitarioSoles;
     private Double subtotal;
 
     @ManyToOne( fetch = FetchType.EAGER)
@@ -18,6 +24,10 @@ public class DetalleCompra {
 
     @ManyToOne( fetch = FetchType.EAGER)
     private Compras compra;
+
+    @OneToMany(mappedBy = "detalleCompra",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Kardex> kardexcompra  = new HashSet<>();
 
     public Long getDetalleCompraId() {
         return detalleCompraId;
@@ -59,12 +69,36 @@ public class DetalleCompra {
         this.compra = compra;
     }
 
-    public Double getCostoUnitario() {
-        return costoUnitario;
+    public Double getCostoCompraUSD() {
+        return costoCompraUSD;
     }
 
-    public void setCostoUnitario(Double costoUnitario) {
-        this.costoUnitario = costoUnitario;
+    public void setCostoCompraUSD(Double costoCompraUSD) {
+        this.costoCompraUSD = costoCompraUSD;
+    }
+
+    public Double getTipoCambio() {
+        return TipoCambio;
+    }
+
+    public void setTipoCambio(Double tipoCambio) {
+        TipoCambio = tipoCambio;
+    }
+
+    public Double getCostoUnitarioSoles() {
+        return costoUnitarioSoles;
+    }
+
+    public void setCostoUnitarioSoles(Double costoUnitarioSoles) {
+        this.costoUnitarioSoles = costoUnitarioSoles;
+    }
+
+    public Set<Kardex> getKardexcompra() {
+        return kardexcompra;
+    }
+
+    public void setKardexcompra(Set<Kardex> kardexcompra) {
+        this.kardexcompra = kardexcompra;
     }
 
     public DetalleCompra() {

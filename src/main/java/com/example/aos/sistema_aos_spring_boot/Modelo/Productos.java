@@ -16,15 +16,25 @@ public class Productos {
 
     private String nombre;
     private String codigo;
-    private Double precioCompra;
-    private Double precioVenta;
-    private Double precioCotizacion;
+
+    @Lob
+    private byte[] Imagen;
+
+    private Double costoCompraUSD;
+    private Double tipodeCambio;
+    private Double utilidad;
+    private Double precioVentaSoles;
+    private Double precioCotizacionSoles;
 
     @Column(length = 2000)
     private String descripcion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Categoria categoria;
+
+    @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<DetalleCatalogo> detalleCatalogos  = new HashSet<>();
 
     @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -38,9 +48,6 @@ public class Productos {
     @JsonIgnore
     private Set<InventarioStock> inventarioStocks  = new HashSet<>();
 
-    @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<StockTransfer> stockTransfers  = new HashSet<>();
 
     @OneToMany(mappedBy = "producto",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -78,28 +85,44 @@ public class Productos {
         this.codigo = codigo;
     }
 
-    public Double getPrecioCompra() {
-        return precioCompra;
+    public Double getCostoCompraUSD() {
+        return costoCompraUSD;
     }
 
-    public void setPrecioCompra(Double precioCompra) {
-        this.precioCompra = precioCompra;
+    public void setCostoCompraUSD(Double costoCompraUSD) {
+        this.costoCompraUSD = costoCompraUSD;
     }
 
-    public Double getPrecioVenta() {
-        return precioVenta;
+    public Double getTipodeCambio() {
+        return tipodeCambio;
     }
 
-    public void setPrecioVenta(Double precioVenta) {
-        this.precioVenta = precioVenta;
+    public void setTipodeCambio(Double tipodeCambio) {
+        this.tipodeCambio = tipodeCambio;
     }
 
-    public Double getPrecioCotizacion() {
-        return precioCotizacion;
+    public Double getUtilidad() {
+        return utilidad;
     }
 
-    public void setPrecioCotizacion(Double precioCotizacion) {
-        this.precioCotizacion = precioCotizacion;
+    public void setUtilidad(Double utilidad) {
+        this.utilidad = utilidad;
+    }
+
+    public Double getPrecioVentaSoles() {
+        return precioVentaSoles;
+    }
+
+    public void setPrecioVentaSoles(Double precioVentaSoles) {
+        this.precioVentaSoles = precioVentaSoles;
+    }
+
+    public Double getPrecioCotizacionSoles() {
+        return precioCotizacionSoles;
+    }
+
+    public void setPrecioCotizacionSoles(Double precioCotizacionSoles) {
+        this.precioCotizacionSoles = precioCotizacionSoles;
     }
 
     public String getDescripcion() {
@@ -126,13 +149,7 @@ public class Productos {
         this.inventarioStocks = inventarioStocks;
     }
 
-    public Set<StockTransfer> getStockTransfers() {
-        return stockTransfers;
-    }
 
-    public void setStockTransfers(Set<StockTransfer> stockTransfers) {
-        this.stockTransfers = stockTransfers;
-    }
 
     public Set<DetalleVenta> getDetalleVenta2() {
         return detalleVenta2;
@@ -172,6 +189,22 @@ public class Productos {
 
     public void setKardex(Set<Kardex> kardex) {
         this.kardex = kardex;
+    }
+
+    public Set<DetalleCatalogo> getDetalleCatalogos() {
+        return detalleCatalogos;
+    }
+
+    public void setDetalleCatalogos(Set<DetalleCatalogo> detalleCatalogos) {
+        this.detalleCatalogos = detalleCatalogos;
+    }
+
+    public byte[] getImagen() {
+        return Imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        Imagen = imagen;
     }
 
     public Productos() {

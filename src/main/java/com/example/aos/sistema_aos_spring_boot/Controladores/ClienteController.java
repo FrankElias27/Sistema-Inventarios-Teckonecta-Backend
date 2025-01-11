@@ -1,5 +1,6 @@
 package com.example.aos.sistema_aos_spring_boot.Controladores;
 
+import com.example.aos.sistema_aos_spring_boot.Exceptions.ClienteExistenteException;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Categoria;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Cliente;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Ventas;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+
 @RestController
 @RequestMapping("/api/cliente")
 @CrossOrigin("*")
@@ -22,9 +25,15 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/")
-    public ResponseEntity<Cliente> guardarCliente(@RequestBody Cliente cliente){
-        Cliente clienteGuardado = clienteService.agregarCliente(cliente);
-        return ResponseEntity.ok(clienteGuardado);
+    public ResponseEntity<?> guardarCliente(@RequestBody Cliente cliente) {
+        try {
+            Cliente clienteGuardado = clienteService.agregarCliente(cliente);
+            return ResponseEntity.ok(clienteGuardado);
+        } catch (ClienteExistenteException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al guardar el cliente.");
+        }
     }
 
     @GetMapping("/{clienteId}")
@@ -60,8 +69,17 @@ public class ClienteController {
     }
 
     @PutMapping("/")
-    public Cliente actualizarCliente(@RequestBody Cliente cliente){
-        return clienteService.actualizarCliente(cliente);
+    public ResponseEntity<?> actualizarCliente(@RequestBody Cliente cliente) {
+        try {
+            Cliente clienteActualizado = clienteService.actualizarCliente(cliente);
+            return ResponseEntity.ok(clienteActualizado);
+        } catch (ClienteExistenteException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al actualizar el cliente.");
+        }
     }
 
     @DeleteMapping("/{clienteId}")

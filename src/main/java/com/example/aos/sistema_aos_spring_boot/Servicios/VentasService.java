@@ -22,6 +22,6 @@ public interface VentasService {
 
     void eliminarVenta(Long ventasId);
 
-
+    public void procesarVenta(Long ventaId, Long inventarioId);
 
 }

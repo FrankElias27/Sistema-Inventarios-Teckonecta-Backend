@@ -1,5 +1,7 @@
 package com.example.aos.sistema_aos_spring_boot.Modelo;
 
+import com.example.aos.sistema_aos_spring_boot.Enums.AntiguedadCliente;
+import com.example.aos.sistema_aos_spring_boot.Enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -22,6 +24,8 @@ public class Cliente {
     private String DNI;
     private String Correo;
     private String Telefono;
+    private TipoCliente tipoCliente;
+    private AntiguedadCliente antiguedadCliente;
 
     @OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -117,6 +121,23 @@ public class Cliente {
 
     public void setCotizacionCliente(Set<Cotizacion> cotizacionCliente) {
         this.cotizacionCliente = cotizacionCliente;
+    }
+
+    public TipoCliente getTipoCliente() {
+        return tipoCliente;
+    }
+
+
+    public void setTipoCliente(TipoCliente tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
+
+    public AntiguedadCliente getAntiguedadCliente() {
+        return antiguedadCliente;
+    }
+
+    public void setAntiguedadCliente(AntiguedadCliente antiguedadCliente) {
+        this.antiguedadCliente = antiguedadCliente;
     }
 
     public Cliente() {

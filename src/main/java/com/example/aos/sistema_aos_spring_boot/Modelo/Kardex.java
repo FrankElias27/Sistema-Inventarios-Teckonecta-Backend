@@ -35,6 +35,12 @@ public class Kardex {
     @ManyToOne(fetch = FetchType.LAZY)
     private Inventario inventario;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DetalleVenta detalleVenta;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DetalleCompra detalleCompra;
+
     public Long getKardexId() {
         return kardexId;
     }
@@ -105,6 +111,22 @@ public class Kardex {
 
     public void setInventario(Inventario inventario) {
         this.inventario = inventario;
+    }
+
+    public DetalleVenta getDetalleVenta() {
+        return detalleVenta;
+    }
+
+    public void setDetalleVenta(DetalleVenta detalleVenta) {
+        this.detalleVenta = detalleVenta;
+    }
+
+    public DetalleCompra getDetalleCompra() {
+        return detalleCompra;
+    }
+
+    public void setDetalleCompra(DetalleCompra detalleCompra) {
+        this.detalleCompra = detalleCompra;
     }
 
     public Kardex() {

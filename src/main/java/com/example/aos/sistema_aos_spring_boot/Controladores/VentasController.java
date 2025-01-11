@@ -1,7 +1,9 @@
 package com.example.aos.sistema_aos_spring_boot.Controladores;
 
+import com.example.aos.sistema_aos_spring_boot.Exceptions.*;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Compras;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Productos;
+import com.example.aos.sistema_aos_spring_boot.Modelo.ResponseMessage;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Ventas;
 import com.example.aos.sistema_aos_spring_boot.Servicios.VentasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +73,25 @@ public class VentasController {
         ventasService.eliminarVenta(ventasId);
     }
 
-
-
+    @PostMapping("/{ventaId}/procesar/{inventarioId}")
+    public ResponseEntity<?> procesarVenta(@PathVariable Long ventaId, @PathVariable Long inventarioId) {
+        try {
+            ventasService.procesarVenta(ventaId, inventarioId);
+            return ResponseEntity.ok(new ResponseMessage("Venta procesada con éxito"));
+        } catch (DetallesVentaVaciosException e) {
+            return ResponseEntity.status(400).body("Detalles de venta vacíos: " + e.getMessage());
+        } catch (InventarioNoEncontradoException e) {
+            return ResponseEntity.status(404).body("Inventario no encontrado: " + e.getMessage());
+        } catch (ProductoNoEncontradoException e) {
+            return ResponseEntity.status(404).body("Producto no encontrado: " + e.getMessage());
+        } catch (VentaNoEncontradaException e) {
+            return ResponseEntity.status(404).body("Venta no encontrada: " + e.getMessage());
+        } catch (StockInsuficienteException e) {
+            return ResponseEntity.status(400).body("Stock insuficiente: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno del servidor: " + e.getMessage());
+        }
+    }
 
 
 }

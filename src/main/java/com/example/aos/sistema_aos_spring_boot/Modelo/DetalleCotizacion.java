@@ -12,6 +12,8 @@ public class DetalleCotizacion {
     private Long detalleCotizacionId;
 
     private Double cantidad;
+    private Double tipodeCambio;
+    private Double utilidad;
     private Double costoUnitario;
     private Double subtotal;
 
@@ -67,6 +69,22 @@ public class DetalleCotizacion {
 
     public void setCostoUnitario(Double costoUnitario) {
         this.costoUnitario = costoUnitario;
+    }
+
+    public Double getTipodeCambio() {
+        return tipodeCambio;
+    }
+
+    public void setTipodeCambio(Double tipodeCambio) {
+        this.tipodeCambio = tipodeCambio;
+    }
+
+    public Double getUtilidad() {
+        return utilidad;
+    }
+
+    public void setUtilidad(Double utilidad) {
+        this.utilidad = utilidad;
     }
 
     public DetalleCotizacion() {

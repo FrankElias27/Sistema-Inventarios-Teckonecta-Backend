@@ -1,5 +1,6 @@
 package com.example.aos.sistema_aos_spring_boot.Controladores;
 
+import com.example.aos.sistema_aos_spring_boot.Exceptions.ProveedorExistenteException;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Categoria;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Cliente;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Proveedor;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+
 @RestController
 @RequestMapping("/api/proveedor")
 @CrossOrigin("*")
@@ -22,9 +25,15 @@ public class ProveedorController {
     private ProveedorService proveedorService;
 
     @PostMapping("/")
-    public ResponseEntity<Proveedor> guardarProveedor(@RequestBody Proveedor proveedor){
-        Proveedor proveedorGuardado = proveedorService.agregarProveedor(proveedor);
-        return ResponseEntity.ok(proveedorGuardado);
+    public ResponseEntity<?> guardarProveedor(@RequestBody Proveedor proveedor) {
+        try {
+            Proveedor proveedorGuardado = proveedorService.agregarProveedor(proveedor);
+            return ResponseEntity.ok(proveedorGuardado);
+        } catch (ProveedorExistenteException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al guardar el proveedor.");
+        }
     }
 
     @GetMapping("/{proveedorId}")
@@ -61,8 +70,17 @@ public class ProveedorController {
     }
 
     @PutMapping("/")
-    public Proveedor actualizarProveedor(@RequestBody Proveedor proveedor){
-        return proveedorService.actualizarProveedor(proveedor);
+    public ResponseEntity<?> actualizarProveedor(@RequestBody Proveedor proveedor) {
+        try {
+            Proveedor proveedorActualizado = proveedorService.actualizarProveedor(proveedor);
+            return ResponseEntity.ok(proveedorActualizado);
+        } catch (ProveedorExistenteException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al actualizar el proveedor.");
+        }
     }
 
     @DeleteMapping("/{proveedorId}")

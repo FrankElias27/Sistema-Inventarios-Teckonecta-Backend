@@ -6,17 +6,20 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
 
 public interface ProductosService {
 
+    Productos guardarProducto(Productos producto, MultipartFile imagen);
+
+    Productos actualizarProducto(Productos producto, MultipartFile imagen);
+
     Page<Productos> findAll(Pageable pageable);
 
     Productos agregarProductos(Productos productos);
-
-    Productos actualizarProductos(Productos productos);
 
     Set<Productos> obtenerProductos();
 
@@ -25,7 +28,6 @@ public interface ProductosService {
     void eliminarProductos(Long ProductoId);
 
     List<Productos> listarProductosDeUnaCategoria(Categoria categoria);
-
 
     Page<Productos> buscarProductosPorNombre(String nombre, Pageable pageable);
 

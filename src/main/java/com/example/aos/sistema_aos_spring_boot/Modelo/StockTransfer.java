@@ -28,9 +28,6 @@ public class StockTransfer {
     @JoinColumn(name = "to_inventory_id", nullable = false)
     private Inventario toInventory;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Productos producto;
-
 
     @OneToOne(mappedBy = "stockTransfer",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
@@ -80,13 +77,7 @@ public class StockTransfer {
         this.toInventory = toInventory;
     }
 
-    public Productos getProducto() {
-        return producto;
-    }
 
-    public void setProducto(Productos producto) {
-        this.producto = producto;
-    }
 
     public GuiaRemision getGuiaRemisions() {
         return guiaRemisions;

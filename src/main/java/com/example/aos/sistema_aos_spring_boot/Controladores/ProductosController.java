@@ -1,10 +1,15 @@
 package com.example.aos.sistema_aos_spring_boot.Controladores;
 
+import com.example.aos.sistema_aos_spring_boot.Exceptions.ImageSizeExceededException;
+import com.example.aos.sistema_aos_spring_boot.Exceptions.InvalidImageFormatException;
+import com.example.aos.sistema_aos_spring_boot.Exceptions.ProductoExistenteException;
+import com.example.aos.sistema_aos_spring_boot.Exceptions.SkuExistenteException;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Categoria;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Ventas;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Productos;
 import com.example.aos.sistema_aos_spring_boot.Servicios.VentasService;
 import com.example.aos.sistema_aos_spring_boot.Servicios.ProductosService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -24,15 +31,64 @@ public class ProductosController {
     @Autowired
     private ProductosService productosService;
 
-    @PostMapping("/")
+    @PostMapping("/guardar")
+    public ResponseEntity<?> guardarProducto(@RequestParam("producto") String productoJson,
+                                             @RequestParam("imagen") MultipartFile imagen) {
+        try {
+            // Convertir el JSON a un objeto Producto
+            ObjectMapper objectMapper = new ObjectMapper();
+            Productos producto = objectMapper.readValue(productoJson, Productos.class);
+
+            // Llamar al servicio para guardar el producto
+            Productos productoGuardado = productosService.guardarProducto(producto, imagen);
+            return ResponseEntity.ok(productoGuardado);
+
+        } catch (SkuExistenteException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (ImageSizeExceededException | InvalidImageFormatException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al guardar el producto.");
+        }
+    }
+
+    @PostMapping("/nousar")
     public ResponseEntity<Productos> guardarProductos(@RequestBody Productos productos){
         return ResponseEntity.ok(productosService.agregarProductos(productos));
     }
 
-    @PutMapping("/")
-    public ResponseEntity<Productos> actualizarProductos(@RequestBody Productos productos){
-        return ResponseEntity.ok(productosService.actualizarProductos(productos));
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarProducto(
+            @PathVariable("id") Long productoId,
+            @RequestPart("producto") String productoJson,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
+        try {
+            // Convertir el JSON a un objeto Producto
+            ObjectMapper objectMapper = new ObjectMapper();
+            Productos producto = objectMapper.readValue(productoJson, Productos.class);
+            producto.setProductoId(productoId); // Establecer el ID
+
+            // Llamar al servicio para actualizar el producto
+            Productos productoActualizado = productosService.actualizarProducto(producto, imagen);
+            return ResponseEntity.ok(productoActualizado);
+
+        } catch (EntityNotFoundException e) {
+            // Enviar mensaje de error si el producto no existe
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (ProductoExistenteException e) {
+            // Enviar mensaje de error si el código del producto ya existe
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (ImageSizeExceededException | InvalidImageFormatException e) {
+            // Enviar mensaje de error si el tamaño o formato de la imagen es incorrecto
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Error general en caso de fallos inesperados
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al actualizar el producto.");
+        }
     }
+
 
     @GetMapping("/")
     public ResponseEntity<?> listarProductos(){
