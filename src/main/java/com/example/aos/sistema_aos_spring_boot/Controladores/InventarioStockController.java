@@ -1,5 +1,6 @@
 package com.example.aos.sistema_aos_spring_boot.Controladores;
 
+import com.example.aos.sistema_aos_spring_boot.Exceptions.ProductoRegistradoException;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Inventario;
 import com.example.aos.sistema_aos_spring_boot.Modelo.InventarioStock;
 import com.example.aos.sistema_aos_spring_boot.Servicios.InventarioService;
@@ -21,9 +22,14 @@ public class InventarioStockController {
     private InventarioStockService inventarioStockService;
 
     @PostMapping("/")
-    public ResponseEntity<InventarioStock> guardarInventarioStock(@RequestBody InventarioStock inventarioStock){
-        InventarioStock inventarioGuardado = inventarioStockService.agregarStock(inventarioStock);
-        return ResponseEntity.ok(inventarioGuardado);
+    public ResponseEntity<?> guardarInventarioStock(@RequestBody InventarioStock inventarioStock){
+        try {
+            InventarioStock inventarioGuardado = inventarioStockService.agregarStock(inventarioStock);
+            return ResponseEntity.ok(inventarioGuardado);
+        } catch (ProductoRegistradoException e) {
+            // Capturar la excepción personalizada y devolver el error adecuado
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{inventarioId}/page/{page}")
@@ -51,6 +57,16 @@ public class InventarioStockController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/{stockId}")
+    public InventarioStock listarInventarioStockPorId(@PathVariable("stockId") Long stockId){
+        return inventarioStockService.obtenerStock(stockId);
+    }
+
+    @PutMapping("/")
+    public InventarioStock actualizarInventarioStock(@RequestBody InventarioStock inventarioStock){
+        return inventarioStockService.actualizarStock(inventarioStock);
     }
 
     @DeleteMapping("/{stockId}")

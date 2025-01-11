@@ -10,4 +10,6 @@ public interface InventarioStockRepository extends JpaRepository<InventarioStock
     InventarioStock findByProductoProductoIdAndInventarioInventarioId(Long productoId, Long inventarioId);
 
     Page<InventarioStock> findByInventarioInventarioId(Long inventarioId, Pageable pageable);
+
+    boolean existsByProductoProductoIdAndInventarioInventarioId(Long productoId, Long inventarioId);
 }

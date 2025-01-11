@@ -1,5 +1,6 @@
 package com.example.aos.sistema_aos_spring_boot.Servicios.impl;
 
+import com.example.aos.sistema_aos_spring_boot.Exceptions.ProductoRegistradoException;
 import com.example.aos.sistema_aos_spring_boot.Modelo.Inventario;
 import com.example.aos.sistema_aos_spring_boot.Modelo.InventarioStock;
 import com.example.aos.sistema_aos_spring_boot.Repositorios.InventarioRepository;
@@ -35,6 +36,18 @@ public class InventarioStockServiceImpl implements InventarioStockService {
 
     @Override
     public InventarioStock agregarStock(InventarioStock inventarioStock) {
+        Long productoId = inventarioStock.getProducto().getProductoId();
+        Long inventarioId = inventarioStock.getInventario().getInventarioId();
+
+        // Verificar si ya existe un registro con el mismo productoId e inventarioId
+        boolean existe = inventarioStockRepository.existsByProductoProductoIdAndInventarioInventarioId(productoId, inventarioId);
+
+        if (existe) {
+            // Lanzar la excepción personalizada en lugar de IllegalArgumentException
+            throw new ProductoRegistradoException("El producto ya está registrado en este inventario. Te recomiendo actualizar el stock de forma manual");
+        }
+
+        // Si no existe, proceder a guardar
         return inventarioStockRepository.save(inventarioStock);
     }
 
