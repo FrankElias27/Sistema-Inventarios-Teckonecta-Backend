@@ -16,6 +16,7 @@ public class Productos {
 
     private String nombre;
     private String codigo;
+    private String codigoplus;
 
     @Lob
     private byte[] Imagen;
@@ -205,6 +206,14 @@ public class Productos {
 
     public void setImagen(byte[] imagen) {
         Imagen = imagen;
+    }
+
+    public String getCodigoplus() {
+        return codigoplus;
+    }
+
+    public void setCodigoplus(String codigoplus) {
+        this.codigoplus = codigoplus;
     }
 
     public Productos() {

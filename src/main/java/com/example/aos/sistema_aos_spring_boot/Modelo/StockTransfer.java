@@ -1,5 +1,6 @@
 package com.example.aos.sistema_aos_spring_boot.Modelo;
 
+import com.example.aos.sistema_aos_spring_boot.Enums.Estado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,6 +20,8 @@ public class StockTransfer {
     private Double cantidad;
 
     private LocalDateTime FechaTransferencia = LocalDateTime.now();
+
+    private Estado estado;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "from_inventory_id", nullable = false)
@@ -93,6 +96,14 @@ public class StockTransfer {
 
     public void setDetalleStockTransfer(Set<DetalleStockTransfer> detalleStockTransfer) {
         this.detalleStockTransfer = detalleStockTransfer;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     public StockTransfer() {
